@@ -13,5 +13,5 @@ PutHTML:
 	cp solar.js /var/www/html/practice/
 
 	echo "Current contents of your HTML directory: "
-	ls -l /var/www/html/solar
+	ls -l /var/www/html/practice
 
