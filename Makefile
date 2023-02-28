@@ -8,9 +8,9 @@
 all: PutHTML
 
 PutHTML:
-	cp solar.html /var/www/html/solar/
-	cp solar.css /var/www/html/solar/
-	cp solar.js /var/www/html/solar/
+	cp solar.html /var/www/html/practice/
+	cp solar.css /var/www/html/practice/
+	cp solar.js /var/www/html/practice/
 
 	echo "Current contents of your HTML directory: "
 	ls -l /var/www/html/solar
