@@ -250,7 +250,9 @@ function processSiteDailyWatts(results) {
 	var data = results['message'];
 	//console.log(JSON.stringify(data));
 	document.querySelector('#output').innerHTML += wattTable(data) "<h1>Watts for the current day</h1>";
-	displayAllSiteTodayWatts(data);
+	// Display graph
+	makeLiveSummaryGraph(wattsLabel,wattsData);
+	getAllSiteTodayWatts();
 }
 
 // Get the Site watts by minute for that day
