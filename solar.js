@@ -407,5 +407,7 @@ function makeLineGraphDailyWatts(time,watts) {
     }
   });
 }
+
+makeLineGraphDailyWatts()
 		   
 	
