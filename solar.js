@@ -271,14 +271,8 @@ function processSiteDailyWatts(results) {
 	}
 	//clearCanvas();
 	var data = results['message'];
-	var datasum = sum(results['message']);
 	//console.log(JSON.stringify(data));
 	document.querySelector('#output').innerHTML += wattTable(data);
-	// Display graph
-	//console.log(JSON.stringify(data));
-	console.log(JSON.stringify(datasum));
-	document.querySelector('#output').innerHTML += "<h1>Watts for the current day</h1>";
-	makeSumSummaryGraph(hours,whrs);
 }
 
 // Get the Site watts by minute for that day
