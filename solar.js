@@ -388,7 +388,7 @@ function makeLineGraphDailyWatts(results) {
    summaryWhrChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
-		labes: hours,
+		labels: time,
 		datasets: [{
 		   label: 'kilowatts for current day',
 		   data: watts,
