@@ -254,28 +254,24 @@ function processSiteDailyWatts(results) {
 	//console.log(JSON.stringify(data));
 	document.querySelector('#output').innerHTML += wattTable(data);
 	
-	linehourchart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: results,
-      datasets: [{
-        label: 'watts for the current day',
-        data: watts,
-	fill: false,
-	borderColor: 'rgb(252, 186, 3)',
-	tension: 0.1
-        borderWidth: 1
-      }]
-    },
-    options: {
-      //indexAxis: 'y',
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
+	today = todaysDate();
+
+	dataList = results['message'];
+	wattsData = [];
+	wattsLabel = [];
+	dataList.forEach(function(site) {
+		siteDate = site[2].split(" ")[0];
+		if (parseInt(site[1])>0 && siteDate == today) {
+			wattsData.push(site[1]);
+			wattsLabel.push(siteMap[site[0]]);
+		}
+	});
+	document.querySelector('#output').innerHTML = "<h1>Watts for the current day</h1>";
+	// Display graph
+	destroySummaryChart();
+	getSiteDailyWatts(siteMAC);
+
+}
 }
 
 // Get the Site watts by minute for that day
