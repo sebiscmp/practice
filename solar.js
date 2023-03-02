@@ -240,11 +240,8 @@ function getAllSiteTodayWatts() {
 		})
 }
 
-
-///////////HERE//////////////
 // Process the Site watts by hour for that day
 function processSiteDailyWatts(results) {
-	const ctx = document.getElementById('chart3');
 	if (!results["success"]) {
 		document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
 		return;
@@ -253,25 +250,6 @@ function processSiteDailyWatts(results) {
 	var data = results['message'];
 	//console.log(JSON.stringify(data));
 	document.querySelector('#output').innerHTML += wattTable(data);
-	
-	today = todaysDate();
-
-	dataList = results['message'];
-	wattsData = [];
-	wattsLabel = [];
-	dataList.forEach(function(site) {
-		siteDate = site[2].split(" ")[0];
-		if (parseInt(site[1])>0 && siteDate == today) {
-			wattsData.push(site[1]);
-			wattsLabel.push(siteMap[site[0]]);
-		}
-	});
-	document.querySelector('#output').innerHTML = "<h1>Watts for the current day</h1>";
-	// Display graph
-	destroySummaryChart();
-	getSiteDailyWatts(siteMAC);
-
-}
 }
 
 // Get the Site watts by minute for that day
@@ -393,29 +371,4 @@ function makeSumSummaryGraph(names,watts) {
     }
   });
 }
-
-
-//My work is from here
-
-//A line graph of for a schools output for the current day
-
-/*function makeLineGraphCurrentDay(names,watts) {
-	
-	const ctx = document.getElementById('chart3');
-	
-	if
-		d
-		
-	dailyoutputlinechart = new Chart(ctx, {
-		type: 'line',
-		labels: names,
-		datasets: [{
-			label: 'watts for the current day',
-			data: watts,
-			fill: false,
-			borderColor: 'rgb(252, 186, 3)',
-			tension: 0.1
-		}]
-	};
-*/
 
