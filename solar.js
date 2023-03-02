@@ -270,7 +270,6 @@ function getAllSiteTodayWatts() {
 }
 
 // Process the Site watts by hour for that day
-//////////// here //////////////
 function processSiteDailyWatts(results) {
 	if (!results["success"]) {
 		document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
@@ -416,6 +415,7 @@ function getDailyWattsHours(siteMAC) {
 	commandEachHour=commandEachHour.replace("%SITE%,shortMAC(MAC)");
 	commandEachHour=commandEachHour.replace("%DATE%,todaysDate()");
 	
+	console.log(commandEachHour);
 	fetch(commandEachHour, {
 		method: 'get'
 	})
@@ -431,10 +431,10 @@ function processSiteDailyHourlyWatts(results) {
 		return;
 	}
 	
-	var dataEachHour = results['message'];
+	var data = results['message'];
 	
 	document.querySelector('#output3').innerHTML += "<h1>Today's hourly watts</h1>";
-	makeLineGraphDailyWatts(hourlabels,dataEachHour);
+	makeLineGraphDailyWatts(hourlabels,data);
 	getDailyWattsHours(siteMAC);
 }
 
@@ -447,6 +447,7 @@ function makeLineGraphDailyWatts(label,watts) {
 	
    if (summaryChart) destroySummaryChart();
 
+   console.log(JSON.stringfy(hourlabels),JSON.stringfy(watts));
    summaryChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
