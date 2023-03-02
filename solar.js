@@ -19,22 +19,29 @@ const QueryErr = '<p style="color:red">ErQuery failed';
 const hourlabels = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 
+
+
 //gives query of watts each min, of each hour.
 //http://belize.expertlearningsystem.org/Knowledge/?SessionID=1234567890:9999&Query=SolarHistory(6DC854,qWattsmin1,2023-02-20%2014*)
 
-const minWhr7 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2007*)";
-const minWhr8 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2008*)";
-const minWhr9 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2009*)";
-const minWhr10 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2010*)";
-const minWhr11 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2011*)";
-const minWhr12 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2012*)";
-const minWhr13 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2013*)";
-const minWhr14 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2014*)";
-const minWhr15 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2015*)";
-const minWhr16 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2016*)";
-const minWhr17 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2017*)";
-const minWhr18 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2018*)";
-const minWhr19 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2019*)";
+// actually.. I found this.
+// gives query of average watts each hour.
+// http://belize.expertlearningsystem.org/Knowledge/?SessionID=1234567890:9999&Query=SolarHistory(6DC854,qWattsHour1,2023-03-01%2010*)
+const whr7 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2007*)";
+const whr8 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2008*)";
+const whr9 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2009*)";
+const whr10 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2010*)";
+const whr11 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2011*)";
+const whr12 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2012*)";
+const whr13 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2013*)";
+const whr14 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2014*)";
+const whr15 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2015*)";
+const whr16 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2016*)";
+const whr17 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2017*)";
+const whr18 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2018*)";
+const whr19 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2019*)";
+
+const wEachHr = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%*)";
 
 
 
@@ -399,20 +406,55 @@ function makeSumSummaryGraph(names,watts) {
 // I'll try again.
 
 
+// data for hourly graph.
+
+function getDailyWattsHours(siteMAC) {
+	var MAC = shortMAC(siteMAC);
+	var commandEachHour = Url+wEachHr;
+	var dataEachHour = results['message'];
+	
+	commandEachHour=commandEachHour.replace("%SITE%,shortMAC(MAC)");
+	commandEachHour=commandEachHour.replace("%DATE%,todaysDate()");
+	
+	fetch(commandEachHour, {
+		method: 'get'
+	})
+	.then (responseEachHour => responseEachHour.json())
+	.then (dataEachHour => processSiteDailyHourlyWatts(dataEachHour))
+	.catch (error => {document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
+		})
+}
+
+function processSiteDailyHourlyWatts(results) {
+	if (!results["success"]) {
+		document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
+		return;
+	}
+	
+	var dataEachHour = results['message'];
+	
+	document.querySelector('#output3').innerHTML += "<h1>Today's hourly watts</h1>";
+	makeLiveSummaryGraph(hourlabels,dataEachHour);
+	getDailyWattsHours(siteMAC);
+}
+
+	
+	
+}
+
 // Create and display a line graph of hourly killowatts of current day.
-function makeLineGraphDailyWatts(hours,watts) {
+function makeLineGraphDailyWatts() {
    const ctx = document.getElementById('chart3');
 	
    if (summaryChart) destroySummaryChart();
 
-console.log(JSON.stringify(data))
    summaryChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
 		labels: hourlabels, //add up & divide by 60 -- that's watthours.    run query in the html bar first. if it returns in the form you want it to, then move onto the actual graph.
 		datasets: [{
 		   label: 'kilowatts for current day',
-		   data: Watts,
+		   data: watts,
 		   fill: false,
 		   borderColor: 'rgb(197, 214, 69)',
 		   tension: 0.1
