@@ -16,25 +16,25 @@ const SolarWattsAllDayAllSites="&Query=SolarWattsAllDayAllSites(%DATE%*)";
 console.log("Start!");
 const ErrSrv = '<p style="color:red">Error reading from server';
 const QueryErr = '<p style="color:red">ErQuery failed';
-const timelabels = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+const hourlabels = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 
 //gives query of watts each min, of each hour.
 //http://belize.expertlearningsystem.org/Knowledge/?SessionID=1234567890:9999&Query=SolarHistory(6DC854,qWattsmin1,2023-02-20%2014*)
 
-const minWhr7 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2007*)";
-const minWhr8 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2008*)";
-const minWhr9 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2009*)";
-const minWhr10 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2010*)";
-const minWhr11 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2011*)";
-const minWhr12 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2012*)";
-const minWhr13 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2013*)";
-const minWhr14 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2014*)";
-const minWhr15 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2015*)";
-const minWhr16 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2016*)";
-const minWhr17 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2017*)";
-const minWhr18 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2018*)";
-const minWhr19 = "&Query=SolarHistorySummary(*,qHistoryWattsmin1,%DATE%2019*)";
+const minWhr7 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2007*)";
+const minWhr8 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2008*)";
+const minWhr9 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2009*)";
+const minWhr10 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2010*)";
+const minWhr11 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2011*)";
+const minWhr12 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2012*)";
+const minWhr13 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2013*)";
+const minWhr14 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2014*)";
+const minWhr15 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2015*)";
+const minWhr16 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2016*)";
+const minWhr17 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2017*)";
+const minWhr18 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2018*)";
+const minWhr19 = "&Query=SolarHistorySummary(%SITE%,qHistoryWattsmin1,%DATE%2019*)";
 
 
 
@@ -263,6 +263,7 @@ function getAllSiteTodayWatts() {
 }
 
 // Process the Site watts by hour for that day
+//////////// here //////////////
 function processSiteDailyWatts(results) {
 	if (!results["success"]) {
 		document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
@@ -270,11 +271,14 @@ function processSiteDailyWatts(results) {
 	}
 	//clearCanvas();
 	var data = results['message'];
+	var datasum = sum(results['message']);
 	//console.log(JSON.stringify(data));
-	document.querySelector('#output').innerHTML += wattTable(data)+"<h1>Watts for the current day</h1>";
+	document.querySelector('#output').innerHTML += wattTable(data);
 	// Display graph
-	makeLiveSummaryGraph(wattsLabel,wattsData);
-	getAllSiteTodayWatts();
+	//console.log(JSON.stringify(data));
+	console.log(JSON.stringify(datasum));
+	document.querySelector('#output').innerHTML += "<h1>Watts for the current day</h1>";
+	makeSumSummaryGraph(hours,whrs);
 }
 
 // Get the Site watts by minute for that day
@@ -402,7 +406,7 @@ function makeSumSummaryGraph(names,watts) {
 
 
 // Create and display a line graph of hourly killowatts of current day.
-function makeLineGraphDailyWatts(time,watts) {
+function makeLineGraphDailyWatts(hours,watts) {
    const ctx = document.getElementById('chart3');
 	
    if (summaryChart) destroySummaryChart();
@@ -411,7 +415,7 @@ console.log(JSON.stringify(data))
    summaryChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
-		labels: hours, //add up & divide by 60 -- that's watthours.    run query in the html bar first. if it returns in the form you want it to, then move onto the actual graph.
+		labels: hourlabels, //add up & divide by 60 -- that's watthours.    run query in the html bar first. if it returns in the form you want it to, then move onto the actual graph.
 		datasets: [{
 		   label: 'kilowatts for current day',
 		   data: Watts,
@@ -432,7 +436,7 @@ console.log(JSON.stringify(data))
 }
 
 // Create and display a bar graph of hourly killowatts of current day.
-function makeHrByHrGraph(time,watts) {
+/*function makeHrByHrGraph(time,watts) {
    const ctx = document.getElementById('chart4');
 	
    if (summaryChart) destroySummaryChart();
@@ -459,4 +463,5 @@ function makeHrByHrGraph(time,watts) {
     }
   });
 }
+*/
 
