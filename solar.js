@@ -250,7 +250,7 @@ function processSiteDailyWatts(results) {
 	//clearCanvas();
 	var data = results['message'];
 	//console.log(JSON.stringify(data));
-	document.querySelector('#output').innerHTML += wattTable(data) "<h1>Watts for the current day</h1>";
+	document.querySelector('#output').innerHTML += wattTable(data)+"<h1>Watts for the current day</h1>";
 	// Display graph
 	makeLiveSummaryGraph(wattsLabel,wattsData);
 	getAllSiteTodayWatts();
@@ -390,7 +390,7 @@ console.log(JSON.stringify(data))
    summaryChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
-		labels: time,
+		labels: hours, //add up & divide by 60 -- that's watthours.    run query in the html bar first. if it returns in the form you want it to, then move onto the actual graph.
 		datasets: [{
 		   label: 'kilowatts for current day',
 		   data: watts,
