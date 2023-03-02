@@ -380,7 +380,7 @@ function makeSumSummaryGraph(names,watts) {
 
 
 // Create and display a line graph of hourly killowatts of current day.
-function makeLineGraphDailyWatts(results) {
+function makeLineGraphDailyWatts(time,watts) {
    const ctx = document.getElementById('chart3');
 	
    if (summaryWhrChart) destroyWhrChart();
