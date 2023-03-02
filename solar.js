@@ -240,8 +240,11 @@ function getAllSiteTodayWatts() {
 		})
 }
 
+
+///////////HERE//////////////
 // Process the Site watts by hour for that day
 function processSiteDailyWatts(results) {
+	const ctx = document.getElementById('chart3');
 	if (!results["success"]) {
 		document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
 		return;
@@ -250,6 +253,29 @@ function processSiteDailyWatts(results) {
 	var data = results['message'];
 	//console.log(JSON.stringify(data));
 	document.querySelector('#output').innerHTML += wattTable(data);
+	
+	linehourchart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: results,
+      datasets: [{
+        label: 'watts for the current day',
+        data: watts,
+	fill: false,
+	borderColor: 'rgb(252, 186, 3)',
+	tension: 0.1
+        borderWidth: 1
+      }]
+    },
+    options: {
+      //indexAxis: 'y',
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 }
 
 // Get the Site watts by minute for that day
@@ -371,4 +397,29 @@ function makeSumSummaryGraph(names,watts) {
     }
   });
 }
+
+
+//My work is from here
+
+//A line graph of for a schools output for the current day
+
+/*function makeLineGraphCurrentDay(names,watts) {
+	
+	const ctx = document.getElementById('chart3');
+	
+	if
+		d
+		
+	dailyoutputlinechart = new Chart(ctx, {
+		type: 'line',
+		labels: names,
+		datasets: [{
+			label: 'watts for the current day',
+			data: watts,
+			fill: false,
+			borderColor: 'rgb(252, 186, 3)',
+			tension: 0.1
+		}]
+	};
+*/
 
