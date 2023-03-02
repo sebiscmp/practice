@@ -16,6 +16,7 @@ const SolarWattsAllDayAllSites="&Query=SolarWattsAllDayAllSites(%DATE%*)";
 console.log("Start!");
 const ErrSrv = '<p style="color:red">Error reading from server';
 const QueryErr = '<p style="color:red">ErQuery failed';
+const timelabels = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 var siteMap = {};  // A global place to store MAC to School name map
 var summaryChart = 0;
 var summaryWhrChart = 0;
@@ -383,9 +384,9 @@ function makeSumSummaryGraph(names,watts) {
 function makeLineGraphDailyWatts(time,watts) {
    const ctx = document.getElementById('chart3');
 	
-   if (summaryWhrChart) destroyWhrChart();
+   if (summaryChart) destroySummaryChart();
 
-   summaryWhrChart = new Chart(ctx, {
+   summaryChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
 		labels: time,
@@ -408,6 +409,32 @@ function makeLineGraphDailyWatts(time,watts) {
   });
 }
 
-makeLineGraphDailyWatts()
-		   
+// Create and display a bar graph of hourly killowatts of current day.
+function makeHrByHrGraph(time,watts) {
+   const ctx = document.getElementById('chart4');
 	
+   if (summaryChart) destroySummaryChart();
+
+   summaryChart = new Chart(ctx, {
+	   type: 'bar',
+	   data: {
+		labels: time,
+		datasets: [{
+		   label: 'kilowatts',
+		   data: watts,
+		   fill: false,
+		   borderColor: 'rgb(69, 178, 214)',
+		   tension: 0.1
+		}]
+	   },
+	   options: {
+      //indexAxis: 'y',
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
