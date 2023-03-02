@@ -439,8 +439,7 @@ function processSiteDailyHourlyWatts(results) {
 }
 
 	
-	
-}
+
 
 // Create and display a line graph of hourly killowatts of current day.
 function makeLineGraphDailyWatts() {
