@@ -434,7 +434,7 @@ function processSiteDailyHourlyWatts(results) {
 	var dataEachHour = results['message'];
 	
 	document.querySelector('#output3').innerHTML += "<h1>Today's hourly watts</h1>";
-	makeLiveSummaryGraph(hourlabels,dataEachHour);
+	makeLineGraphDailyWatts(hourlabels,dataEachHour);
 	getDailyWattsHours(siteMAC);
 }
 
@@ -442,7 +442,7 @@ function processSiteDailyHourlyWatts(results) {
 
 
 // Create and display a line graph of hourly killowatts of current day.
-function makeLineGraphDailyWatts() {
+function makeLineGraphDailyWatts(label,watts) {
    const ctx = document.getElementById('chart3');
 	
    if (summaryChart) destroySummaryChart();
