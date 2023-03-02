@@ -249,7 +249,8 @@ function processSiteDailyWatts(results) {
 	//clearCanvas();
 	var data = results['message'];
 	//console.log(JSON.stringify(data));
-	document.querySelector('#output').innerHTML += wattTable(data);
+	document.querySelector('#output').innerHTML += wattTable(data) "<h1>Watts for the current day</h1>";
+	displayAllSiteTodayWatts(data);
 }
 
 // Get the Site watts by minute for that day
@@ -372,3 +373,37 @@ function makeSumSummaryGraph(names,watts) {
   });
 }
 
+
+// I'll try again.
+
+
+// Create and display a line graph of hourly killowatts of current day.
+function makeLineGraphDailyWatts(results) {
+   const ctx = document.getElementById('chart3');
+	
+   if (summaryWhrChart) destroyWhrChart();
+
+   summaryWhrChart = new Chart(ctx, {
+	   type: 'line',
+	   data: {
+		labes: hours,
+		datasets: [{
+		   label: 'kilowatts for current day',
+		   data: watts,
+		   fill: false,
+		   borderColor: 'rgb(197, 214, 69)',
+		   tension: 0.1
+		}]
+	   },
+	   options: {
+      //indexAxis: 'y',
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+		   
+	
