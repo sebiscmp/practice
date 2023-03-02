@@ -386,6 +386,7 @@ function makeLineGraphDailyWatts(time,watts) {
 	
    if (summaryChart) destroySummaryChart();
 
+console.log(JSON.stringify(data))
    summaryChart = new Chart(ctx, {
 	   type: 'line',
 	   data: {
