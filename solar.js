@@ -423,10 +423,8 @@ function processSiteDailyHourlyWatts(results) {
 	wattsData = [];
 	wattsLabel = hourslabels;
 	dataList.forEach(function(hour) {
-		siteHour = hour[2].split(" ")[0];
-		if (parseInt(hour[1])>0 && siteDate == today) {
-			wattsData.push(hour[1]);
-		}
+		siteHour = site[3].split(" ")[0];
+		wattsData.push(site[1]);
 	});
 	// var datalabel = hourlabels;`
 	
