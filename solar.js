@@ -431,10 +431,17 @@ function processSiteDailyHourlyWatts(results) {
 		return;
 	}
 	
-	var data = results['message'];
+	today = todaysDate();
+	
+	dataList = results['message'];
+	wattsData = [];
+	wattsLabel = hourslabels;
+	dataList.forEach(funct........................................
+	data = results['message'];
+	var datalabel = hourlabels;`
 	
 	document.querySelector('#output3').innerHTML += "<h1>Today's hourly watts</h1>";
-	makeLineGraphDailyWatts(hourlabels,data);
+	makeLineGraphDailyWatts(datalabel,data);
 	getDailyWattsHours(siteMAC);
 }
 
