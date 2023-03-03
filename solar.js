@@ -393,12 +393,30 @@ function makeSumSummaryGraph(names,watts) {
 
 // data for hourly graph.
 
+// Get the Site watts by hour for that day
+function getSiteDailyWatts(siteMAC) {
+	var MAC = shortMAC(siteMAC);
+	var command=Url+wEachHr;
+
+	command=command.replace("%SITE%",MAC);
+	command=command.replace("%DATE%",todaysDate());
+	fetch(command, {
+		method: 'get'
+    	})
+		.then (response => response.json() )
+        	.then (data => processSiteDailyWatts(data))
+		.catch(error => {
+	    	document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
+		})
+}
+
+/*
 function getDailyWattsHours(siteMAC) {
 	var MAC = shortMAC(siteMAC);
 	var commandEachHour = Url+wEachHr;
 	var dataEachHour = results['message'];
 	
-	commandEachHour=commandEachHour.replace("%SITE%,shortMAC(MAC)");
+	commandEachHour=commandEachHour.replace("%SITE%,MAC");
 	commandEachHour=commandEachHour.replace("%DATE%,todaysDate()");
 	
 	console.log(commandEachHour);
@@ -410,31 +428,74 @@ function getDailyWattsHours(siteMAC) {
 	.catch (error => {document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
 		})
 }
+*/
 
-function processSiteDailyHourlyWatts(results) {
+/*function processSiteDailyHourlyWatts(results) {
 	if (!results["success"]) {
 		document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
 		return;
 	}
 	
-	today = todaysDate();
+	wattsData1 = [];
+	wattsLabel1 = hourslabels;
+	
+	for 
+	
+	/*today = todaysDate();
 	
 	dataList = results['message'];
 	wattsData = [];
 	wattsLabel = hourslabels;
-	dataList.forEach(funct........................................
-	data = results['message'];
-	var datalabel = hourlabels;`
+	dataList.forEach(function(hour) {
+		siteHour = site[3].split(" ")[0];
+		wattsData.push(site[1]);
+	}); */
+/*
+	// var datalabel = hourlabels;
 	
 	document.querySelector('#output3').innerHTML += "<h1>Today's hourly watts</h1>";
-	makeLineGraphDailyWatts(datalabel,data);
-	getDailyWattsHours(siteMAC);
+	makeLineGraphDailyWatts(wattsLabel,wattsData);
+	getDailyWattsHours();
 }
+*/
 
+function makeLineGraphDailyWatts(names,watts) {
+   const ctx = document.getElementById('chart3');
+   if (summaryChart) destroySummaryChart();
 	
+   summaryChart = new Chart(ctx, {
+	   type: 'line',
+	   data: {
+		labels: names, //add up & divide by 60 -- that's watthours.    run query in the html bar first. if it returns in the form you want it to, then move onto the actual graph.
+		datasets: [{
+		   label: 'kilowatts for current day',
+		   data: watts,
+		   fill: false,
+		   borderColor: 'rgb(197, 214, 69)',
+		   borderWidth: 0.1
+		}]
+	   },
+	   options: {
+      //indexAxis: 'y',
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+   
+
+// Remove whatt hour chart
+function destroyWhrChart() {
+	summaryChart.destroy();
+	summaryChart = 0;
+
 
 
 // Create and display a line graph of hourly killowatts of current day.
+/*
 function makeLineGraphDailyWatts(label,watts) {
    const ctx = document.getElementById('chart3');
 	
@@ -463,6 +524,9 @@ function makeLineGraphDailyWatts(label,watts) {
     }
   });
 }
+*/
+
+
 
 // Create and display a bar graph of hourly killowatts of current day.
 /*function makeHrByHrGraph(time,watts) {
