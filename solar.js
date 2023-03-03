@@ -21,6 +21,7 @@ const hourlabels = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 
 
+
 //gives query of watts each min, of each hour.
 //http://belize.expertlearningsystem.org/Knowledge/?SessionID=1234567890:9999&Query=SolarHistory(6DC854,qWattsmin1,2023-02-20%2014*)
 
@@ -411,20 +412,20 @@ function getSiteDailyWatts(siteMAC) {
 }
 
 // a function that returns an array containing all hours during which watts were recorded for a school throughout the day
-function findhour(data) {
+function processSiteDailyHourlyWatts(data) {
         var prev = -1
         let dWatts = [];
         let dHour= []
         data.forEach ( function(row) {
-                var time = hourlabels(row[2]);
+                // var time = hourlabels(row[2]);
                 var watts = row[3];
                 if (prev != 0 || parseInt(watts) != 0) {
-                dWatts.push(parseInt(time));
-                        dMins.push(parseInt(watts));
+                // dWatts.push(parseInt(time));
+                        dWatts.push(parseInt(watts));
                 }
                 prev = parseInt(watts);
     });
-    return dHour;
+    return dWatts;
 }
 
 
@@ -480,7 +481,7 @@ function getDailyWattsHours(siteMAC) {
 }
 */
 
-function makeLineGraphDailyWatts(names,watts) {
+function makeLineGraphDailyWatts(hourlabels,watts) {
    const ctx = document.getElementById('chart3');
    if (summaryChart) destroySummaryChart();
 	
