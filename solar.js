@@ -404,11 +404,30 @@ function getSiteDailyWatts(siteMAC) {
 		method: 'get'
     	})
 		.then (response => response.json() )
-        	.then (data => processSiteDailyWatts(data))
+        	.then (data => processSiteDailyHourlyWatts(data))
 		.catch(error => {
 	    	document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
 		})
 }
+
+// a function that returns an array containing all hours during which watts were recorded for a school throughout the day
+function findhour(data) {
+        var prev = -1
+        let dWatts = [];
+        let dHour= []
+        data.forEach ( function(row) {
+                var time = hourlabels(row[2]);
+                var watts = row[3];
+                if (prev != 0 || parseInt(watts) != 0) {
+                dWatts.push(parseInt(time));
+                        dMins.push(parseInt(watts));
+                }
+                prev = parseInt(watts);
+    });
+    return dHour;
+}
+
+
 
 /*
 function getDailyWattsHours(siteMAC) {
@@ -429,6 +448,8 @@ function getDailyWattsHours(siteMAC) {
 		})
 }
 */
+
+
 
 /*function processSiteDailyHourlyWatts(results) {
 	if (!results["success"]) {
