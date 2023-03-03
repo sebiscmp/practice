@@ -398,7 +398,7 @@ function getDailyWattsHours(siteMAC) {
 	var commandEachHour = Url+wEachHr;
 	var dataEachHour = results['message'];
 	
-	commandEachHour=commandEachHour.replace("%SITE%,shortMAC(MAC)");
+	commandEachHour=commandEachHour.replace("%SITE%,MAC");
 	commandEachHour=commandEachHour.replace("%DATE%,todaysDate()");
 	
 	console.log(commandEachHour);
@@ -422,13 +422,17 @@ function processSiteDailyHourlyWatts(results) {
 	dataList = results['message'];
 	wattsData = [];
 	wattsLabel = hourslabels;
-	dataList.forEach(funct........................................
-	data = results['message'];
-	var datalabel = hourlabels;`
+	dataList.forEach(function(hour) {
+		siteHour = hour[2].split(" ")[0];
+		if (parseInt(hour[1])>0 && siteDate == today) {
+			wattsData.push(hour[1]);
+		}
+	});
+	// var datalabel = hourlabels;`
 	
 	document.querySelector('#output3').innerHTML += "<h1>Today's hourly watts</h1>";
-	makeLineGraphDailyWatts(datalabel,data);
-	getDailyWattsHours(siteMAC);
+	makeLineGraphDailyWatts(wattsLabel,wattsData);
+	getDailyWattsHours();
 }
 
 	
