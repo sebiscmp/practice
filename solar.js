@@ -488,10 +488,10 @@ function makeLineGraphDailyWatts(names,watts) {
    
 
 // Remove whatt hour chart
-function destroyWhrChart() {
+/*function destroyWhrChart() {
 	summaryChart.destroy();
 	summaryChart = 0;
-
+*/
 
 
 // Create and display a line graph of hourly killowatts of current day.
@@ -525,36 +525,3 @@ function makeLineGraphDailyWatts(label,watts) {
   });
 }
 */
-
-
-
-// Create and display a bar graph of hourly killowatts of current day.
-/*function makeHrByHrGraph(time,watts) {
-   const ctx = document.getElementById('chart4');
-	
-   if (summaryChart) destroySummaryChart();
-
-   summaryChart = new Chart(ctx, {
-	   type: 'bar',
-	   data: {
-		labels: time,
-		datasets: [{
-		   label: 'kilowatts',
-		   data: Watts,
-		   fill: false,
-		   borderColor: 'rgb(69, 178, 214)',
-		   tension: 0.1
-		}]
-	   },
-	   options: {
-      //indexAxis: 'y',
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-}
-*/
-
