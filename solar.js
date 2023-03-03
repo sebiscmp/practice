@@ -410,6 +410,7 @@ function getSiteDailyWatts(siteMAC) {
 		})
 }
 
+/*
 function getDailyWattsHours(siteMAC) {
 	var MAC = shortMAC(siteMAC);
 	var commandEachHour = Url+wEachHr;
@@ -427,6 +428,7 @@ function getDailyWattsHours(siteMAC) {
 	.catch (error => {document.querySelector('#output').innerHTML = QueryErr+" Get sites watts for today";
 		})
 }
+*/
 
 /*function processSiteDailyHourlyWatts(results) {
 	if (!results["success"]) {
