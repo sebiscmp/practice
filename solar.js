@@ -27,20 +27,6 @@ const hourlabels = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 // actually.. I found this.
 // gives query of average watts each hour.
 // http://belize.expertlearningsystem.org/Knowledge/?SessionID=1234567890:9999&Query=SolarHistory(6DC854,qWattsHour1,2023-03-01%2010*)
-const whr7 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2007*)";
-const whr8 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2008*)";
-const whr9 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2009*)";
-const whr10 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2010*)";
-const whr11 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2011*)";
-const whr12 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2012*)";
-const whr13 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2013*)";
-const whr14 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2014*)";
-const whr15 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2015*)";
-const whr16 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2016*)";
-const whr17 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2017*)";
-const whr18 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2018*)";
-const whr19 = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%2019*)";
-
 const wEachHr = "&Query=SolarHistorySummary(%SITE%,qWattsHour1,%DATE%*)";
 
 
